@@ -1,3 +1,5 @@
+import { FileData, LineData } from './FileData.js';
+
 let rows, cols, nFiles;
 let fileList = [], fileContents = [];
 let consola, segoeui;
@@ -16,6 +18,7 @@ async function setup() {
 
     // builds an array of filenames and their content in text form
     fileContents = await getFiles(fileList);
+
 
     console.log(fileList);
 
@@ -91,12 +94,16 @@ function getFiles(fileList) {
 }
 
 
-/* Given the number of files to show, calculates a good set of dimensions that
- * maximizes the space each 'page' can fill
- */
 function calculateRowsAndCols(nItems) {
-    let divisor = 2;
+    // edge cases
+    if (nItems === 1) {
+        return [1, 1];
+    }
+    if (nItems === 2) {
+        return [1, 2];
+    }
 
+    let divisor = 2;
     while (true) {
         if (divisor > Math.floor(nItems / 2)) {
             nItems++;
